@@ -1,4 +1,4 @@
-module Main where
+module SonarSweep where
 
 countMeasurments :: [Int] -> Int
 countMeasurments = go 0
@@ -9,10 +9,26 @@ countMeasurments = go 0
                          then go (acc + 1) (y:xs)
                          else go acc (y:xs)
 
-run :: String -> String
-run = show . countMeasurments . map read . lines
+sweepOne :: String -> String
+sweepOne = show . countMeasurments . map read . lines
 
-main :: IO ()
-main = do
+partOne :: IO ()
+partOne = do
   input <- readFile "input_1"
-  putStrLn $ run input
+  putStrLn $ sweepOne input
+
+slideWindow :: [Int] -> [Int]
+slideWindow = go []
+  where
+    go _ [] = []
+    go acc [x] = acc
+    go acc [x, y] = acc
+    go acc (x:y:z:xs) = go (acc ++ [x + y + z]) (y:z:xs)
+
+sweepTwo :: String -> String
+sweepTwo = show . countMeasurments . slideWindow . map read . lines
+
+partTwo :: IO ()
+partTwo = do
+  input <- readFile "input_1"
+  putStrLn $ sweepTwo input
