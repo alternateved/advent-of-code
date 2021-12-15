@@ -1,4 +1,4 @@
-module SonarSweep where
+module Day01 where
 
 countMeasurments :: [Int] -> Int
 countMeasurments = go 0
@@ -20,9 +20,9 @@ partOne = do
 slideWindow :: [Int] -> [Int]
 slideWindow = go []
   where
-    go _ [] = []
-    go acc [x] = acc
-    go acc [x, y] = acc
+    go _ []           = []
+    go acc [x]        = acc
+    go acc [x, y]     = acc
     go acc (x:y:z:xs) = go (acc ++ [x + y + z]) (y:z:xs)
 
 sweepTwo :: String -> String

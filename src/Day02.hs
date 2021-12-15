@@ -1,6 +1,6 @@
-module Dive where
+module Day02 where
 
-import Data.List (foldl')
+import           Data.List (foldl')
 
 newtype Move = Move (String, Int)
   deriving (Eq, Show)
@@ -13,9 +13,9 @@ calculateResult (Position (x, y)) = x * y
 
 performMove :: Position -> Move -> Position
 performMove (Position (x, y)) (Move ("forward", d)) = Position (x + d, y)
-performMove (Position (x, y)) (Move ("down", d)) = Position (x, y + d)
-performMove (Position (x, y)) (Move ("up", d)) = Position (x, y - d)
-performMove _ _ = Position (0, 0)
+performMove (Position (x, y)) (Move ("down", d))    = Position (x, y + d)
+performMove (Position (x, y)) (Move ("up", d))      = Position (x, y - d)
+performMove _ _                                     = Position (0, 0)
 
 parseMove :: String -> Move
 parseMove s = Move (direction, depth)
