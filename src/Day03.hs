@@ -8,9 +8,7 @@ binaryToDec = foldl' convert 0
   where
     convert acc x = acc * 2 + digitToInt x
 
-negateBit :: Char -> Char
-negateBit x = if x == '1' then '0' else '1'
-
+-- FIXME remove sort
 analyseBit :: (Int -> Int -> Bool) -> String -> Char
 analyseBit c l = if c zeros ones then '0' else '1'
   where
@@ -33,12 +31,15 @@ partOne = do
   input <- readFile "input_3"
   putStrLn $ parseBits input
 
--- analyseBit first index and decide if the list should be filtered by 0 or 1
--- analyseBit next index and decide if ... repeat until the end of the list
--- return result
-
-findO2GeneratorRating :: [String] -> String
-findO2GeneratorRating = undefined
+findRating :: (Int -> Int -> Bool) -> [String] -> String
+findRating c l = head $ go 0 [] l
+  where
+    l' = transpose l
+    go _ acc [] = acc
+    go i acc (x : xs) =
+      if (x !! i) == analyseBit c (l' !! i)
+        then go i (x:acc) xs
+        else go (i + 1) acc xs
 
 findCO2ScrubberRating :: [String] -> String
 findCO2ScrubberRating = undefined
@@ -46,8 +47,8 @@ findCO2ScrubberRating = undefined
 calculateResult' :: [String] -> Int
 calculateResult' l = binaryToDec o2Rating * binaryToDec co2Rating
   where
-    o2Rating = findO2GeneratorRating l
-    co2Rating = findCO2ScrubberRating l
+    o2Rating = findRating (>=) l
+    co2Rating = findRating (<=) l
 
 parseBits' :: String -> String
 parseBits' = show . calculateResult' . lines
@@ -58,17 +59,46 @@ partTwo = do
   putStrLn $ parseBits' input
 
 test =
-  unlines [
-    "00100",
-    "11110",
-    "10110",
-    "10111",
-    "10101",
-    "01111",
-    "00111",
-    "11100",
-    "10000",
-    "11001",
-    "00010",
-    "01010"
-  ]
+  unlines
+    [ "00100",
+      "11110",
+      "10110",
+      "10111",
+      "10101",
+      "01111",
+      "00111",
+      "11100",
+      "10000",
+      "11001",
+      "00010",
+      "01010"
+    ]
+
+-- 010
+test2 =
+    [ "010",
+      "110",
+      "010"
+    ]
+
+-- 000
+test3 =
+    [ "000",
+      "000",
+      "000"
+    ]
+
+-- 110
+test4 =
+    [ "110",
+      "110",
+      "010"
+    ]
+
+-- 110
+test5 =
+    [ "110",
+      "110",
+      "110",
+      "111"
+    ]
