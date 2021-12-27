@@ -8,13 +8,14 @@ binaryToDec = foldl' convert 0
   where
     convert acc x = acc * 2 + digitToInt x
 
--- FIXME remove sort
+countChar :: Char -> String -> Int
+countChar c = foldl' (\acc curr -> if curr == c then acc + 1 else acc) 0
+
 analyseBit :: (Int -> Int -> Bool) -> String -> Char
 analyseBit c l = if c zeros ones then '0' else '1'
   where
-    l' = group . sort $ l
-    zeros = length . head $ l'
-    ones = length . last $ l'
+    zeros = countChar '0' l
+    ones = countChar '1' l
 
 calculateResult :: [String] -> Int
 calculateResult l = binaryToDec gamma * binaryToDec epsilon
