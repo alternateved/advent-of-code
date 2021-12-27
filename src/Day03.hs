@@ -3,6 +3,8 @@ module Day03 where
 import           Data.Char (digitToInt)
 import           Data.List (foldl', group, sort, transpose)
 
+data Rarity = Common | Rare
+
 binaryToDec :: String -> Int
 binaryToDec = foldl' convert 0
   where
@@ -11,8 +13,10 @@ binaryToDec = foldl' convert 0
 countChar :: Char -> String -> Int
 countChar c = foldl' (\acc curr -> if curr == c then acc + 1 else acc) 0
 
-analyseBit :: (Int -> Int -> Bool) -> String -> Char
-analyseBit c l = if c zeros ones then '0' else '1'
+analyseBit :: Rarity -> String -> Char
+analyseBit r l = case r of
+  Common -> if zeros >= ones then '0' else '1'
+  Rare   -> if zeros <= ones then '0' else '1'
   where
     zeros = countChar '0' l
     ones = countChar '1' l
@@ -21,8 +25,8 @@ calculateResult :: [String] -> Int
 calculateResult l = binaryToDec gamma * binaryToDec epsilon
   where
     l' = transpose l
-    gamma = map (analyseBit (<=)) l'
-    epsilon = map (analyseBit (>=)) l'
+    gamma = map (analyseBit Common) l'
+    epsilon = map (analyseBit Rare) l'
 
 parseBits :: String -> String
 parseBits = show . calculateResult . lines
@@ -32,13 +36,13 @@ partOne = do
   input <- readFile "input_3"
   putStrLn $ parseBits input
 
-findRating :: (Int -> Int -> Bool) -> [String] -> String
-findRating c l = head $ go 0 [] l
+findRating :: Rarity -> [String] -> String
+findRating r l = head $ go 0 [] l
   where
     l' = transpose l
     go _ acc [] = acc
     go i acc (x : xs) =
-      if (x !! i) == analyseBit c (l' !! i)
+      if (x !! i) == analyseBit r (l' !! i)
         then go i (x:acc) xs
         else go (i + 1) acc xs
 
@@ -48,8 +52,8 @@ findCO2ScrubberRating = undefined
 calculateResult' :: [String] -> Int
 calculateResult' l = binaryToDec o2Rating * binaryToDec co2Rating
   where
-    o2Rating = findRating (>=) l
-    co2Rating = findRating (<=) l
+    o2Rating = findRating Common l
+    co2Rating = findRating Rare l
 
 parseBits' :: String -> String
 parseBits' = show . calculateResult' . lines
