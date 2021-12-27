@@ -15,7 +15,7 @@ countChar c = foldl' (\acc curr -> if curr == c then acc + 1 else acc) 0
 
 analyseBit :: Rarity -> String -> Char
 analyseBit r l = case r of
-  Common -> if zeros >= ones then '0' else '1'
+  Common -> if ones >= zeros then '1' else '0'
   Rare   -> if zeros <= ones then '0' else '1'
   where
     zeros = countChar '0' l
@@ -36,18 +36,17 @@ partOne = do
   input <- readFile "input_3"
   putStrLn $ parseBits input
 
-findRating :: Rarity -> [String] -> String
-findRating r l = head $ go 0 [] l
+filterBits :: Rarity -> Int -> [String] -> [String]
+filterBits r i l = filter byBit l
   where
     l' = transpose l
-    go _ acc [] = acc
-    go i acc (x : xs) =
-      if (x !! i) == analyseBit r (l' !! i)
-        then go i (x:acc) xs
-        else go (i + 1) acc xs
+    byBit x = x !! i == analyseBit r (l' !! i)
 
-findCO2ScrubberRating :: [String] -> String
-findCO2ScrubberRating = undefined
+findRating :: Rarity -> [String] -> String
+findRating r l = head $ go 0 l
+  where
+    go acc [x] = [x]
+    go acc xs  = go (acc + 1) (filterBits r acc xs)
 
 calculateResult' :: [String] -> Int
 calculateResult' l = binaryToDec o2Rating * binaryToDec co2Rating
@@ -64,7 +63,6 @@ partTwo = do
   putStrLn $ parseBits' input
 
 test =
-  unlines
     [ "00100",
       "11110",
       "10110",
@@ -77,33 +75,4 @@ test =
       "11001",
       "00010",
       "01010"
-    ]
-
--- 010
-test2 =
-    [ "010",
-      "110",
-      "010"
-    ]
-
--- 000
-test3 =
-    [ "000",
-      "000",
-      "000"
-    ]
-
--- 110
-test4 =
-    [ "110",
-      "110",
-      "010"
-    ]
-
--- 110
-test5 =
-    [ "110",
-      "110",
-      "110",
-      "111"
     ]
