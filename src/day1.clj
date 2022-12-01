@@ -1,11 +1,7 @@
-(ns advent-of-code.core
+(ns day1
   (:require [clojure.java.io :as io]))
 
 (def input (slurp (io/resource "input_1")))
-
-(defn str->int
-  [str]
-  (Integer. str))
 
 (defn split-by-elf
   [string]
@@ -17,7 +13,7 @@
   (sort >
         (map (fn [vector]
                (reduce (fn [total snack]
-                         (+ total (str->int snack)))
+                         (+ total (Integer. snack)))
                        0
                        vector))
              vectors)))
