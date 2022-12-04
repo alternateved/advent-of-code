@@ -1,6 +1,6 @@
 (ns advent-of-code.day4
   (:require [clojure.java.io :as io]
-            [clojure.string :as str]            
+            [clojure.string :as str]
             [clojure.set :as set]))
 
 (def input
@@ -12,16 +12,16 @@
   (map #(str/split % #",")
        (str/split-lines input)))
 
-(defn parse-section
-  "Parse section into a set."
-  [section]
+(defn parse-sections
+  "Parse sections into a set."
+  [sections]
   (set
-   (let [[start end] (str/split section #"-")]
+   (let [[start end] (str/split sections #"-")]
      (range (Integer. start)
             (inc (Integer. end))))))
 
 (def pairs
-  (map #(map parse-section %)
+  (map #(map parse-sections %)
        (split-by-pairs input)))
 
 (defn sub-or-superset?
@@ -31,16 +31,20 @@
       (set/superset? set1 set2)))
 
 (defn intersection?
-  "Is set1 an intersection of set2?"  
+  "Is set1 an intersection of set2?"
   [set1 set2]
   ((comp not empty?) (set/intersection set1 set2)))
 
+(defn analyse-pairs
+  "Count pairs that satisfy given predicate."
+  [pred pairs]
+  (->> pairs
+       (map #(apply pred %))
+       (filter true?)
+       (count)))
+
 (def part-1
-  (count (filter true?
-                 (map #(apply sub-or-superset? %)
-                      pairs))))
+  (analyse-pairs sub-or-superset? pairs))
 
 (def part-2
-  (count (filter true?
-                 (map #(apply intersection? %)
-                      pairs))))
+  (analyse-pairs intersection? pairs))
