@@ -1,9 +1,11 @@
-(ns day3
-  (:require [clojure.java.io :as io]
-            [clojure.string :as str]
-            [clojure.set :as set]))
+(ns advent-of-code.day3
+  (:require
+   [clojure.java.io :as io]
+   [clojure.string :as str]
+   [clojure.set :as set]))
 
-(def input (str/split-lines (slurp (io/resource "input3"))))
+(def input
+  (str/split-lines (slurp (io/resource "input3"))))
 
 (defn split-in-half
   "Split collection in half."
@@ -13,7 +15,7 @@
 (defn setify
   "Transform compartments into sets of characters."
   [compartments]
-  (map #(into #{} (char-array %))
+  (map #(set (char-array %))
        compartments))
 
 (defn find-intersections
@@ -24,18 +26,18 @@
 
 (defn upper?
   "Check if character is upper-case."
-  [char]
-  (= (str char)
-     (str/upper-case char)))
+  [c]
+  (= (str c)
+     (str/upper-case c)))
 
 (defn prioritize
   "Convert item to priority."
-  [char]
-  (if (upper? char)
+  [c]
+  (if (upper? c)
     ;; Upper-case characters starts at 65
-    (- (int char) 38)
+    (- (int c) 38)
     ;; Lower-case characters starts at 97
-    (- (int char) 96)))
+    (- (int c) 96)))
 
 (def common-item-types
   (into [] cat (find-intersections
