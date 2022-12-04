@@ -40,16 +40,22 @@
     (- (int c) 96)))
 
 (def common-item-types
-  (into [] cat (find-intersections
-                (map setify
-                     (map split-in-half input)))))
+  (->> input
+       (map split-in-half)
+       (map setify)
+       (find-intersections)
+       (into [] cat)
+       ))
 
 (def part-1
   (reduce + (map prioritize common-item-types)))
 
 (def all-badges
-  (into [] cat (find-intersections
-                (map setify (partition 3 input)))))
+  (->> input
+       (partition 3)
+       (map setify)
+       (find-intersections)
+       (into [] cat)))
 
 (def part-2
   (reduce + (map prioritize all-badges)))
