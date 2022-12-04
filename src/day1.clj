@@ -1,12 +1,13 @@
 (ns day1
-  (:require [clojure.java.io :as io]))
+  (:require [clojure.java.io :as io]
+            [clojure.string :as str]))
 
-(def input (slurp (io/resource "input_1")))
+(def input (slurp (io/resource "input1")))
 
 (defn split-by-elf
   [string]
-  (map #(clojure.string/split % #"\n")
-       (clojure.string/split string #"\n\n")))
+  (map #(str/split-lines %)
+       (str/split string #"\n\n")))
 
 (defn sum-calories-by-elf
   [vectors]
@@ -21,9 +22,9 @@
 (def list-of-calories
   (sum-calories-by-elf (split-by-elf input)))
 
-(def elf-with-most-calories
+(def part-1
   (first list-of-calories))
 
-(def top-three-sum
+(def part-2
   (reduce + (take 3 list-of-calories)))
 
