@@ -1,8 +1,10 @@
-(ns day2
-  (:require [clojure.java.io :as io]
-            [clojure.string :as str]))
+(ns advent-of-code.day2
+  (:require
+   [clojure.java.io :as io]
+   [clojure.string :as str]))
 
-(def input (str/split-lines (slurp (io/resource "input2"))))
+(def input
+  (str/split-lines (slurp (io/resource "input2"))))
 
 (def occurences
   (frequencies input))
@@ -18,16 +20,17 @@
                "C Z" (+ 3 3)})
 
 (defn calculate
-  [key value]
-  (* value (get mappings key)))
+  [k v]
+  (* v (get mappings k)))
 
 (defn calculate-total
-  [occur]
+  [m]
   (reduce + (map (fn [[k v]]
                    (calculate k v))
-                 occur)))
+                 m)))
 
-(def part-1 (calculate-total occurences))
+(def part-1
+  (calculate-total occurences))
 
 (def outcomes {"X" 0
                "Y" 3
@@ -61,12 +64,14 @@
 (defn play-round
   [round]
   (let [[move outcome] (str/split round #" ")]
-    (+ (get outcomes outcome) (get shapes (apply-strategy move outcome)))))
+    (+ (get outcomes outcome)
+       (get shapes (apply-strategy move outcome)))))
 
 (defn calculate-total-again
-  [occur]
+  [m]
   (reduce + (map (fn [[k v]]
                    (* v (play-round k)))
-                 occur)))
+                 m)))
 
-(def part-2 (calculate-total-again occurences))
+(def part-2
+  (calculate-total-again occurences))

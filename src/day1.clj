@@ -1,13 +1,15 @@
-(ns day1
-  (:require [clojure.java.io :as io]
-            [clojure.string :as str]))
+(ns advent-of-code.day1
+  (:require
+   [clojure.java.io :as io]
+   [clojure.string :as str]))
 
-(def input (slurp (io/resource "input1")))
+(def input
+  (slurp (io/resource "input1")))
 
 (defn split-by-elf
-  [string]
+  [s]
   (map #(str/split-lines %)
-       (str/split string #"\n\n")))
+       (str/split s #"\n\n")))
 
 (defn sum-calories-by-elf
   [vectors]

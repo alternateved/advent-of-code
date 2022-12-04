@@ -1,9 +1,10 @@
-(ns day4
+(ns advent-of-code.day4
   (:require [clojure.java.io :as io]
             [clojure.string :as str]            
             [clojure.set :as set]))
 
-(def input (slurp (io/resource "input4")))
+(def input
+  (slurp (io/resource "input4")))
 
 (defn split-by-pairs
   "Split input by pairs of Elves."
@@ -14,10 +15,10 @@
 (defn parse-section
   "Parse section into a set."
   [section]
-  (into #{}
-        (let [[start end] (str/split section #"-")]
-          (range (Integer. start)
-                 (+ (Integer. end) 1)))))
+  (set
+   (let [[start end] (str/split section #"-")]
+     (range (Integer. start)
+            (inc (Integer. end))))))
 
 (def pairs
   (map #(map parse-section %)
@@ -35,11 +36,11 @@
   ((comp not empty?) (set/intersection set1 set2)))
 
 (def part-1
-  (get (frequencies
-        (map #(apply sub-or-superset? %) pairs))
-       true))
+  (count (filter true?
+                 (map #(apply sub-or-superset? %)
+                      pairs))))
 
 (def part-2
-  (get (frequencies
-        (map #(apply intersection? %) pairs))
-       true))
+  (count (filter true?
+                 (map #(apply intersection? %)
+                      pairs))))
