@@ -1,10 +1,11 @@
 (ns day2
-  (:require [clojure.java.io :as io]))
+  (:require [clojure.java.io :as io]
+            [clojure.string :as str]))
 
-(def input (slurp (io/resource "input_2")))
+(def input (str/split-lines (slurp (io/resource "input2"))))
 
 (def occurences
-  (frequencies (clojure.string/split input #"\n")))
+  (frequencies input))
 
 (def mappings {"A X" (+ 1 3)
                "A Y" (+ 2 6)
@@ -59,7 +60,7 @@
 
 (defn play-round
   [round]
-  (let [[move outcome] (clojure.string/split round #" ")]
+  (let [[move outcome] (str/split round #" ")]
     (+ (get outcomes outcome) (get shapes (apply-strategy move outcome)))))
 
 (defn calculate-total-again
