@@ -25,9 +25,7 @@
 
 (defn calculate-total
   [m]
-  (reduce + (map (fn [[k v]]
-                   (calculate k v))
-                 m)))
+  (transduce (map (fn [[k v]] (calculate k v)) + m)))
 
 (def part-1
   (calculate-total occurences))
@@ -69,9 +67,7 @@
 
 (defn calculate-total-again
   [m]
-  (reduce + (map (fn [[k v]]
-                   (* v (play-round k)))
-                 m)))
+  (transduce (map (fn [[k v]] (* v (play-round k))) + m)))
 
 (def part-2
   (calculate-total-again occurences))

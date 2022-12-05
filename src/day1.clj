@@ -7,26 +7,26 @@
   (slurp (io/resource "input1")))
 
 (defn split-by-elf
+  "Split initial input by Elf."
   [s]
   (map #(str/split-lines %)
        (str/split s #"\n\n")))
 
-(defn sum-calories-by-elf
-  [vectors]
-  (sort >
-        (map (fn [vector]
-               (reduce (fn [total snack]
-                         (+ total (Integer. snack)))
-                       0
-                       vector))
-             vectors)))
+(defn sum-calories
+  "Sum calories carried by one Elf."
+  [calories]
+  (transduce (map #(Integer. %)) + calories))
+
+(defn calculate-all-calories
+  "Create a sorted list of sums of calories carried by each Elf."
+  [input]
+  (sort > (map sum-calories input)))
 
 (def list-of-calories
-  (sum-calories-by-elf (split-by-elf input)))
+  (calculate-all-calories (split-by-elf input)))
 
 (def part-1
   (first list-of-calories))
 
 (def part-2
-  (reduce + (take 3 list-of-calories)))
-
+  (transduce (take 3) + list-of-calories))
