@@ -15,20 +15,17 @@
 (defn setify
   "Transform compartments into sets of characters."
   [compartments]
-  (map #(set (char-array %))
-       compartments))
+  (map #(set (char-array %)) compartments))
 
 (defn find-intersections
   "Find all intersections in setified compartments."
   [input]
-  (concat (map #(apply set/intersection %)
-               input)))
+  (concat (map #(apply set/intersection %) input)))
 
 (defn upper?
   "Check if character is upper-case."
   [c]
-  (= (str c)
-     (str/upper-case c)))
+  (= (str c) (str/upper-case c)))
 
 (defn prioritize
   "Convert item to priority."
@@ -44,11 +41,10 @@
        (map split-in-half)
        (map setify)
        (find-intersections)
-       (into [] cat)
-       ))
+       (into [] cat)))
 
 (def part-1
-  (reduce + (map prioritize common-item-types)))
+  (transduce (map prioritize) + common-item-types))
 
 (def all-badges
   (->> input
@@ -58,4 +54,4 @@
        (into [] cat)))
 
 (def part-2
-  (reduce + (map prioritize all-badges)))
+  (transduce (map prioritize) + all-badges))

@@ -1,7 +1,8 @@
 (ns advent-of-code.day4
-  (:require [clojure.java.io :as io]
-            [clojure.string :as str]
-            [clojure.set :as set]))
+  (:require
+   [clojure.java.io :as io]
+   [clojure.string :as str]
+   [clojure.set :as set]))
 
 (def input
   (slurp (io/resource "input4")))
