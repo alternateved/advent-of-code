@@ -35,11 +35,12 @@
        (separate-parts first)
        (reverse)
        (transpose)
-       (map #(apply str %))
-       (filter without-brackets?)
-       (remove str/blank?)
-       (map #(str/trim %))
-       (map stackify)
+       (transduce (comp
+                   (map #(apply str %))
+                   (filter without-brackets?)
+                   (remove str/blank?)
+                   (map #(str/trim %))
+                   (map stackify)) conj)
        (apply merge)))
 
 (defn instructify
@@ -54,8 +55,8 @@
   [input]
   (->> input
        (separate-parts peek)
-       (map #(str/split % #" "))
-       (map instructify)))
+       (transduce (comp (map #(str/split % #" "))
+                        (map instructify)) conj)))
 
 (def parsed-drawing (parse-drawing input))
 (def parsed-instructions (parse-instructions input))
@@ -105,4 +106,3 @@
 
 (def part-2
   (get-rearrangement (execute-instructions "CM9001" parsed-drawing parsed-instructions)))
-
