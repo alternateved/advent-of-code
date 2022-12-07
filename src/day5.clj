@@ -16,6 +16,12 @@
   [m]
   (apply mapv vector m))
 
+(defn without-brackets?
+  "Returns true if string is free of brackets."
+  [s]
+  (not (or (str/includes? s "[")
+           (str/includes? s "]"))))
+
 (defn stackify
   "Assign number to a stack."
   [[s & r]]
@@ -30,7 +36,7 @@
        (reverse)
        (transpose)
        (map #(apply str %))
-       (filter not-brackets?)
+       (filter without-brackets?)
        (remove str/blank?)
        (map #(str/trim %))
        (map stackify)
@@ -54,27 +60,34 @@
 (def parsed-drawing (parse-drawing input))
 (def parsed-instructions (parse-instructions input))
 
-(defn update-drawing-CM9000
-  "Update drawing crate by crate."
-  [drawing from to]
+(defn update-drawing
+  "Update drawing, obviously,"
+  [drawing from to quantity]
   (assoc drawing
-         from (apply str (drop-last (get drawing from)))
-         to (str (get drawing to) (last (get drawing from)))))
+         from (apply str (drop-last quantity (get drawing from)))
+         to (apply str (get drawing to) (take-last quantity (get drawing from)))))
 
 (defn perform-move-CM9000
   "Execute move and decrement quantity."
   [drawing move]
   (if (= (:quantity move) 0)
     drawing
-    (recur (update-drawing-CM9000 drawing (:from move) (:to move))
+    (recur (update-drawing drawing (:from move) (:to move) 1)
            (update move :quantity dec))))
 
-(defn execute-instructions-CM9000
+(defn perform-move-CM9001
+  "Execute move and update drawing."
+  [drawing move]
+  (update-drawing drawing (:from move) (:to move) (:quantity move)))
+
+(defn execute-instructions
   "Apply all instructions to the drawing."
-  [drawing [move & rest]]
+  [model drawing [move & rest]]
   (if (nil? move)
     drawing
-    (recur (perform-move-CM9000 drawing move) rest)))
+    (case model
+      "CM9000" (recur model (perform-move-CM9000 drawing move) rest)
+      "CM9001" (recur model (perform-move-CM9001 drawing move) rest))))
 
 (defn get-rearrangement
   "Concatenate characters that are on top of each stack."
@@ -88,26 +101,8 @@
             (str result (last (get drawing i)))))))
 
 (def part-1
-  (get-rearrangement (execute-instructions-CM9000 parsed-drawing parsed-instructions)))
-
-(defn update-drawing-CM9001
-  "Update drawing swiftly."
-  [drawing from to q]
-  (assoc drawing
-         from (apply str (drop-last q (get drawing from)))
-         to (apply str (get drawing to) (take-last q (get drawing from)))))
-
-(defn perform-move-CM9001
-  "Execute move and update drawing."
-  [drawing move]
-  (update-drawing-CM9001 drawing (:from move) (:to move) (:quantity move)))
-
-(defn execute-instructions-CM9001
-  "Apply all instructions to the drawing."
-  [drawing [move & rest]]
-  (if (nil? move)
-    drawing
-    (recur (perform-move-CM9001 drawing move) rest)))
+  (get-rearrangement (execute-instructions "CM9000" parsed-drawing parsed-instructions)))
 
 (def part-2
-  (get-rearrangement (execute-instructions-CM9001 parsed-drawing parsed-instructions)))
+  (get-rearrangement (execute-instructions "CM9001" parsed-drawing parsed-instructions)))
+
