@@ -18,37 +18,6 @@
   [m]
   (apply mapv vector m))
 
-(defn count-visible-trees-by-column
-  "Count trees that are not blocked from at least one side."
-  [coll col]
-  (reduce (fn [[x y c] slice]
-            (let [t (nth slice x)
-                  column (nth (transpose coll) x)
-                  left (subvec slice 0 x)
-                  right (subvec slice (inc x))
-                  up (subvec column 0 y)
-                  down (subvec column (inc y))]
-              (if (or (some true? (map empty? (list left right up down)))
-                      (every? #(> t %) left)
-                      (every? #(> t %) right)
-                      (every? #(> t %) up)
-                      (every? #(> t %) down))
-                (list x (inc y) (inc c))
-                (list x (inc y) c)
-                )))
-          (list col 0 0) coll))
-
-(defn count-all-visible-trees
-  [coll]
-  (reduce (fn [accum n]
-            (+ accum (last (count-visible-trees-by-column coll n))))
-          0 (range (count coll))))
-
-(def grid-of-trees (parse-grid input))
-(def part-1 (count-all-visible-trees grid-of-trees))
-
-;;; Alternative solution
-
 (defn add-index-x
   [coll]
   (map #(assoc {} :t %1 :x %2)
@@ -90,8 +59,9 @@
               (map #(mark-visible-trees % coll))
               (map #(reduce + %))) + 0 coords))
 
+(def grid-of-trees (parse-grid input))
 (def coordinates (add-coordinates grid-of-trees))
-(def part-1-alt (count-all-visible-trees-alt coordinates grid-of-trees))
+(def part-1 (count-all-visible-trees grid-of-trees))
 
 (defn calculate-viewing-distance
   "Calculate viewing distance from tree in one direction."
