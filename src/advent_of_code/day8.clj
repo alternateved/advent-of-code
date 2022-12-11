@@ -48,9 +48,7 @@
                    (every? #(> t %) left)
                    (every? #(> t %) right)
                    (every? #(> t %) up)
-                   (every? #(> t %) down))
-             1 0)))
-       row))
+                   (every? #(> t %) down)) 1 0))) row))
 
 (defn count-all-visible-trees-alt
   "Calculate the number of visible trees in provided collection."
@@ -85,8 +83,7 @@
            (* (calculate-viewing-distance (rseq left) t)
                 (calculate-viewing-distance right t)
                 (calculate-viewing-distance (rseq up) t)
-                (calculate-viewing-distance down t))))
-       row))
+                (calculate-viewing-distance down t)))) row))
 
 (defn get-highest-scenic-score
   "Find maximum scenic score for tree in provided collection."
