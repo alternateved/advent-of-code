@@ -35,27 +35,36 @@
    ((string= word "eight") '("8"))
    ((string= word "nine") '("9"))
    ((string= word "oneight") '("1" "8"))
+   ((string= word "threeight") '("3" "8"))
+   ((string= word "fiveight") '("5" "8"))
+   ((string= word "nineight") '("9" "8"))
    ((string= word "twone") '("2" "1"))
    ((string= word "eightwo") '("8" "2"))
    (else (list word))))
 
-(define regex/1
+(define regex-1
   (make-regexp "[0-9]"))
 
-(define regex/2
-  (make-regexp "[0-9]|zero|one|two|three|four|five|six|seven|eight|nine|oneight|twone|eightwo"))
+(define regex-2
+  (make-regexp "[0-9]|zero|one|two|three|four|five|six|seven|eight|nine|oneight|twone|eightwo|threeight|fiveight|nineight"))
 
-(define (get-digits string)
+(define (get-digits rx string)
   (flatten
    (map word->digit
         (map match:substring
-             (list-matches regex/1 string)))))
+             (list-matches rx string)))))
+
+(define (get-digits-1 string)
+  (get-digits regex-1 string))
+
+(define (get-digits-2 string)
+  (get-digits regex-2 string))
 
 (define (digits->number lst)
   (string->number (string-append (first lst) (last lst))))
 
 (define lines (file->lines "2023/resources/input1"))
-(define numbers (map digits->number (map get-digits lines)))
-(define part1 (fold + 0 numbers))
+(define part-1 (fold + 0 (map digits->number (map get-digits-1 lines))))
+(define part-2 (fold + 0 (map digits->number (map get-digits-2 lines))))
 
 
