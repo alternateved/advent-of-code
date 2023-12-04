@@ -1,18 +1,9 @@
 (define-module (day1))
 
-(use-modules (utility))
-(use-modules (ice-9 regex))
-
-(define (first lst)
-  (car lst))
-
-(define (last lst)
-  (car (last-pair lst)))
-
-(define (fold f b l)
-  (cond
-   ((null? l) b)
-   (else (f (car l) (fold f b (cdr l))))))
+(use-modules (srfi srfi-1)
+             (ice-9 match)
+             (ice-9 regex)
+             (utility))
 
 (define (flatten lst)
   (cond
@@ -23,24 +14,24 @@
    (else (cons (car lst) (flatten (cdr lst))))))
 
 (define (word->digit word)
-  (cond 
-   ((string= word "zero") '("0"))
-   ((string= word "one") '("1"))
-   ((string= word "two") '("2"))
-   ((string= word "three") '("3"))
-   ((string= word "four") '("4"))
-   ((string= word "five") '("5"))
-   ((string= word "six") '("6"))
-   ((string= word "seven") '("7"))
-   ((string= word "eight") '("8"))
-   ((string= word "nine") '("9"))
-   ((string= word "oneight") '("1" "8"))
-   ((string= word "threeight") '("3" "8"))
-   ((string= word "fiveight") '("5" "8"))
-   ((string= word "nineight") '("9" "8"))
-   ((string= word "twone") '("2" "1"))
-   ((string= word "eightwo") '("8" "2"))
-   (else (list word))))
+  (match word
+    ("zero" '("0"))
+    ("one" '("1"))
+    ("two" '("2"))
+    ("three" '("3"))
+    ("four" '("4"))
+    ("five" '("5"))
+    ("six" '("6"))
+    ("seven" '("7"))
+    ("eight" '("8"))
+    ("nine" '("9"))
+    ("oneight" '("1" "8"))
+    ("threeight" '("3" "8"))
+    ("fiveight" '("5" "8"))
+    ("nineight" '("9" "8"))
+    ("twone" '("2" "1"))
+    ("eightwo" '("8" "2"))
+    (else (list word))))
 
 (define regex-1
   (make-regexp "[0-9]"))
