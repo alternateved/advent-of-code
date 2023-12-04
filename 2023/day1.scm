@@ -57,5 +57,3 @@
 (define lines (file->lines "2023/resources/input1"))
 (define part-1 (fold + 0 (map digits->number (map get-digits-1 lines))))
 (define part-2 (fold + 0 (map digits->number (map get-digits-2 lines))))
-
-

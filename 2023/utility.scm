@@ -1,8 +1,8 @@
 (define-module (utility)
   #:export (read-lines file->lines))
 
-(use-modules (ice-9 textual-ports))
-(use-modules (ice-9 rdelim))
+(use-modules (ice-9 rdelim)
+             (ice-9 textual-ports))
 
 (define (read-lines port)
   (let loop ((lines '()))
