@@ -39,17 +39,17 @@
 (define regex-2
   (make-regexp "[0-9]|zero|one|two|three|four|five|six|seven|eight|nine|oneight|twone|eightwo|threeight|fiveight|nineight"))
 
-(define (get-digits rx string)
+(define (get-digits rx line)
   (flatten
    (map word->digit
         (map match:substring
-             (list-matches rx string)))))
+             (list-matches rx line)))))
 
-(define (get-digits-1 string)
-  (get-digits regex-1 string))
+(define (get-digits-1 line)
+  (get-digits regex-1 line))
 
-(define (get-digits-2 string)
-  (get-digits regex-2 string))
+(define (get-digits-2 line)
+  (get-digits regex-2 line))
 
 (define (digits->number lst)
   (string->number (string-append (first lst) (last lst))))
