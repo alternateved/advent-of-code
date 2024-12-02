@@ -1,12 +1,8 @@
-(defun read-lines (filename)
-  (with-open-file (stream filename)
-    (loop for line = (read-line stream nil)
-          while line
-          collect line)))
+(in-package :advent-of-code)
 
 (defun separate-sides (lines)
   (loop for line in lines
-        for (left right) = (remove "" (uiop:split-string line) :test #'string=)
+        for (left right) = (uiop:split-string line :separator "   ")
         collect (parse-integer left) into left-side
         collect (parse-integer right) into right-side
         finally (return (list left-side right-side))))
@@ -30,14 +26,14 @@
               (list number (count number right-side)))
             left-side)))
 
-(defvar input (read-lines "../resources/input1"))
+(defvar input (read-lines-from-file "../resources/input1"))
 
 (defun part-1 (input)
   (sum (mapcar #'process-pair
-               (zip (sort-sides (separate-sides *raw-input*))))))
+               (zip (sort-sides (separate-sides input))))))
 
 (defun part-2 (input)
   (sum (mapcar (lambda (pair)
                  (destructuring-bind (a b) pair
                    (* a b)))
-               (calculate-frequencies (separate-sides *raw-input*)))))
+               (calculate-frequencies (separate-sides input)))))
