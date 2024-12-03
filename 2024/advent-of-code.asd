@@ -5,7 +5,6 @@
   :license "MIT"
   :components
   ((:file "package")
-   (:file "utils")
    (:module "src"
     :serial t
     :components ((:file "day1")

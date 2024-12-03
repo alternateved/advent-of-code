@@ -23,7 +23,7 @@
              (return-from check-report (check-report-variations report)))
         never (or (and rising falling) difference)))
 
-(defvar input (read-lines-from-file "../resources/input2"))
+(defvar input (uiop:read-file-lines "../resources/input2"))
 
 (defun part-1 (input)
   (count t (mapcar #'check-report

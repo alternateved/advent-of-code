@@ -2,7 +2,7 @@
 
 (defun separate-sides (lines)
   (loop for line in lines
-        for (left right) = (uiop:split-string line :separator "   ")
+        for (left right) = (remove "" (uiop:split-string line) :test #'string=)
         collect (parse-integer left) into left-side
         collect (parse-integer right) into right-side
         finally (return (list left-side right-side))))
@@ -26,7 +26,7 @@
               (list number (count number right-side)))
             left-side)))
 
-(defvar input (read-lines-from-file "../resources/input1"))
+(defvar input (uiop:read-file-lines "../resources/input1"))
 
 (defun part-1 (input)
   (sum (mapcar #'process-pair
