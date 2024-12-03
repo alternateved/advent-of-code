@@ -1,4 +1,7 @@
-(in-package :advent-of-code)
+(defpackage :aoc/2024/03
+  (:use :cl))
+
+(in-package :aoc/2024/03)
 
 (defun extract-instructions (input)
   (cl-ppcre:all-matches-as-strings
@@ -32,7 +35,7 @@
         else when enabled
                sum (multiply-pair i)))
 
-(defvar input (uiop:read-file-string "../resources/input3"))
+(defvar *input* (uiop:read-file-string "../resources/input03"))
 
 (defun part-1 (input)
   (reduce #'+ (mapcar #'multiply-pair 

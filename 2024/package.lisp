@@ -1,2 +1,2 @@
-(defpackage #:advent-of-code
-  (:use #:cl))
+(defpackage :aoc
+  (:use :cl))

@@ -1,4 +1,4 @@
-(asdf:defsystem #:advent-of-code
+(asdf:defsystem #:aoc
   :serial t
   :description "Advent of Code solutions"
   :author "Tomasz Hołubowicz <mail@alternateved.com"
@@ -8,6 +8,6 @@
   ((:file "package")
    (:module "src"
     :serial t
-    :components ((:file "day1")
-                 (:file "day2")
-                 (:file "day3")))))
+    :components ((:file "day01")
+                 (:file "day02")
+                 (:file "day03")))))

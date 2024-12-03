@@ -1,4 +1,7 @@
-(in-package :advent-of-code)
+(defpackage :aoc/2024/02
+  (:use :cl))
+
+(in-package :aoc/2024/02)
 
 (defun separate-reports (lines)
   (loop for line in lines
@@ -23,7 +26,7 @@
              (return-from check-report (check-report-variations report)))
         never (or (and rising falling) difference)))
 
-(defvar input (uiop:read-file-lines "../resources/input2"))
+(defvar *input* (uiop:read-file-lines "../resources/input02"))
 
 (defun part-1 (input)
   (count t (mapcar #'check-report

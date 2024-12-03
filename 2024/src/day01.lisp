@@ -1,4 +1,7 @@
-(in-package :advent-of-code)
+(defpackage :aoc/2024/01
+  (:use :cl))
+
+(in-package :aoc/2024/01)
 
 (defun separate-sides (lines)
   (loop for line in lines
@@ -26,7 +29,7 @@
               (list number (count number right-side)))
             left-side)))
 
-(defvar input (uiop:read-file-lines "../resources/input1"))
+(defvar *input* (uiop:read-file-lines "../resources/input01"))
 
 (defun part-1 (input)
   (sum (mapcar #'process-pair
