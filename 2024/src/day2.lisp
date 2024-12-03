@@ -18,7 +18,7 @@
         for distance = (abs (- a b))
         do (when (< a b) (setf rising t))
            (when (> a b) (setf falling t))
-           (when (or (< distance 1) (> distance 3)) (setf difference t))
+           (when (< 1 distance 3) (setf difference t))
            (when (and dampenerp (or (and rising falling) difference))
              (return-from check-report (check-report-variations report)))
         never (or (and rising falling) difference)))
