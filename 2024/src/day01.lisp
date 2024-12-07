@@ -3,6 +3,8 @@
 
 (in-package :aoc/2024/01)
 
+(defvar *input* (uiop:read-file-lines "../resources/input01"))
+
 (defun separate-sides (lines)
   (loop for line in lines
         for (left right) = (remove "" (uiop:split-string line) :test #'string=)
@@ -28,8 +30,6 @@
     (mapcar (lambda (number)
               (list number (count number right-side)))
             left-side)))
-
-(defvar *input* (uiop:read-file-lines "../resources/input01"))
 
 (defun part-1 (input)
   (sum (mapcar #'process-pair

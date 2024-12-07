@@ -3,6 +3,8 @@
 
 (in-package :aoc/2024/04)
 
+(defvar *input* (uiop:read-file-lines "../resources/input04"))
+
 (defun compare-word (word str)
   (or (string= word str)
       (string= (reverse word) str)))
@@ -44,8 +46,6 @@
                                 (list (fourth chars) (second chars) (fifth chars)))))
           (incf count))))
     count))
-
-(defvar *input* (uiop:read-file-lines "../resources/input04"))
 
 (defun part-1 (input)
   (count-words input #'find-xmas-seq))

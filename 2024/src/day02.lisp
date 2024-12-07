@@ -3,6 +3,8 @@
 
 (in-package :aoc/2024/02)
 
+(defvar *input* (uiop:read-file-lines "../resources/input02"))
+
 (defun separate-reports (lines)
   (loop for line in lines
         collect (mapcar #'parse-integer
@@ -25,8 +27,6 @@
            (when (and dampenerp (or (and rising falling) difference))
              (return-from check-report (check-report-variations report)))
         never (or (and rising falling) difference)))
-
-(defvar *input* (uiop:read-file-lines "../resources/input02"))
 
 (defun part-1 (input)
   (count t (mapcar #'check-report

@@ -3,6 +3,8 @@
 
 (in-package :aoc/2024/03)
 
+(defvar *input* (uiop:read-file-string "../resources/input03"))
+
 (defun extract-instructions (input)
   (cl-ppcre:all-matches-as-strings
    "mul\\(\\d{1,3},\\d{1,3}\\)" input))
@@ -34,8 +36,6 @@
                do (setf enabled nil)
         else when enabled
                sum (multiply-pair i)))
-
-(defvar *input* (uiop:read-file-string "../resources/input03"))
 
 (defun part-1 (input)
   (reduce #'+ (mapcar #'multiply-pair 
