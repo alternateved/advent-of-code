@@ -1,7 +1,7 @@
-(defpackage :aoc/2024/05
+(defpackage :aoc-2024-05
   (:use :cl))
 
-(in-package :aoc/2024/05)
+(in-package :aoc-2024-05)
 
 (defvar *input*
   (cl-ppcre:split "\\n\\s*\\n" (uiop:read-file-string "../resources/input05")))

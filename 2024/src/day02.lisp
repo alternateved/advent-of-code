@@ -1,7 +1,7 @@
-(defpackage :aoc/2024/02
+(defpackage :aoc-2024-02
   (:use :cl))
 
-(in-package :aoc/2024/02)
+(in-package :aoc-2024-02)
 
 (defvar *input* (uiop:read-file-lines "../resources/input02"))
 

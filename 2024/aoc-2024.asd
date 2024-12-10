@@ -1,4 +1,4 @@
-(asdf:defsystem #:aoc
+(asdf:defsystem #:aoc-2024
   :serial t
   :description "Advent of Code solutions"
   :author "Tomasz Hołubowicz <mail@alternateved.com"
