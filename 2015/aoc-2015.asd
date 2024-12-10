@@ -8,4 +8,5 @@
   ((:file "package")
    (:module "src"
     :serial t
-    :components ((:file "day01")))))
+    :components ((:file "day01")
+                 (:file "day02")))))
