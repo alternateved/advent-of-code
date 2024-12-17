@@ -18,9 +18,9 @@
 (defun part-1 (input)
   (let ((santa '(0 0))
         (houses '((0 0))))
-    (loop for m across input
-          do (setf santa (add-pairs santa (move m)))
-             (push santa houses))
+    (loop for m across input do
+      (setf santa (add-pairs santa (move m)))
+      (push santa houses))
     (length (remove nil (remove-duplicates houses :test #'equal)))))
 
 (defun part-2 (input)
