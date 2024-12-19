@@ -35,7 +35,7 @@
   (let ((result (copy-list disk-map)))
     (loop for (index size) in (reverse disk-map)
           for pos = (position-if (lambda (e) (and (not (first e)) (>= (second e) size))) result)
-          when pos do
+          when (and pos index) do
             (let ((rem (- (second (nth pos result)) size)))
               (setf (nth pos result) (list index size))
               (setf result (nsubstitute (list nil size) (list index size) result :from-end t :test #'equal :count 1))
