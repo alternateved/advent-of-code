@@ -3,7 +3,7 @@
   :description "Advent of Code solutions"
   :author "Tomasz Hołubowicz <mail@alternateved.com"
   :license "MIT"
-  :depends-on (#:cl-ppcre)
+  :depends-on (#:cl-ppcre #:alexandria)
   :components
   ((:file "package")
    (:module "src"
