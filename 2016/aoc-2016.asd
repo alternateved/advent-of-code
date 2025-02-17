@@ -3,7 +3,7 @@
   :description "Advent of Code solutions"
   :author "Tomasz Hołubowicz <mail@alternateved.com"
   :license "MIT"
-  :depends-on (#:cl-ppcre #:alexandria)
+  :depends-on (#:cl-ppcre #:alexandria #:md5)
   :components
   ((:file "package")
    (:module "src"
@@ -11,4 +11,5 @@
     :components ((:file "day01")
                  (:file "day02")
                  (:file "day03")
-                 (:file "day04")))))
+                 (:file "day04")
+                 (:file "day05")))))
