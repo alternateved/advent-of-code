@@ -38,7 +38,7 @@
     min-char))
 
 (defun get-message (f input)
-  (format nil "~{~A~}"
+  (format nil "~{~a~}"
           (loop for part in input
                 collect (funcall f (frequencies part)))))
 

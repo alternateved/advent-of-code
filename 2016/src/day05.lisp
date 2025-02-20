@@ -21,7 +21,7 @@
         when (string= "00000" (subseq hash 0 5))
           collect (char hash 5) into password
         when (= 8 (length password))
-          do (return (format nil "~{~A~}" password))))
+          do (return (format nil "~{~a~}" password))))
 
 (defun find-unordered-password (input)
   (loop with password = (make-array 8 :initial-element nil)
