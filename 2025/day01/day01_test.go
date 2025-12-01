@@ -7,19 +7,57 @@ import (
 )
 
 func TestPart1(t *testing.T) {
-	result := Part1(util.ReadInput(1, true))
-	expected := 3
 
-	if result != expected {
-		t.Errorf("Result was incorrect, got: %d, want: %d.", result, expected)
+	tests := []struct {
+		name  string
+		input string
+		want  int
+	}{
+		{
+			name:  "Example input",
+			input: util.ReadInput(1, "../", "_example"),
+			want:  3,
+		},
+		{
+			name:  "Actual input",
+			input: util.ReadInput(1, "../", ""),
+			want:  1145,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := Part1(tt.input); got != tt.want {
+				t.Errorf("Result was incorrect, got: %d, want: %d.", got, tt.want)
+			}
+		})
 	}
 }
 
 func TestPart2(t *testing.T) {
-	result := Part2(util.ReadInput(1, true))
-	expected := 6
 
-	if result != expected {
-		t.Errorf("Result was incorrect, got: %d, want: %d.", result, expected)
+	tests := []struct {
+		name  string
+		input string
+		want  int
+	}{
+		{
+			name:  "Example input",
+			input: util.ReadInput(1, "../", "_example"),
+			want:  6,
+		},
+		{
+			name:  "Actual input",
+			input: util.ReadInput(1, "../", ""),
+			want:  6561,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := Part2(tt.input); got != tt.want {
+				t.Errorf("Result was incorrect, got: %d, want: %d.", got, tt.want)
+			}
+		})
 	}
 }

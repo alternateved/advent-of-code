@@ -7,14 +7,8 @@ import (
 	"strings"
 )
 
-func ReadInput(day int, test bool) string {
-	var path string
-	if test {
-		path = fmt.Sprintf("../resources/input%02d_test", day)
-	} else {
-		path = fmt.Sprintf("resources/input%02d", day)
-	}
-
+func ReadInput(day int, prefix, suffix string) string {
+	path := fmt.Sprintf("%sresources/input%02d%s", prefix, day, suffix)
 	data, err := os.ReadFile(path)
 	if err != nil {
 		log.Fatal(err)

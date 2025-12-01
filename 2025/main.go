@@ -15,12 +15,12 @@ func main() {
 
 	day = 1
 	start = time.Now()
-	input = util.ReadInput(1, false)
+	input = util.ReadInput(1, "", "")
 	result = day01.Part1(input)
 	fmt.Printf("Day %d Part %d: %v (%v)\n", day, 1, result, time.Since(start))
 
 	start = time.Now()
-	input = util.ReadInput(1, false)
+	input = util.ReadInput(1, "", "")
 	result = day01.Part2(input)
 	fmt.Printf("Day %d Part %d: %v (%v)\n", 1, 2, result, time.Since(start))
 }
