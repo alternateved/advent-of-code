@@ -2,11 +2,12 @@ package day01
 
 import (
 	"log"
+	"math"
 	"strconv"
 	"strings"
 )
 
-func Part1(input string) int {
+func rotateDial(input string, countCrossing bool) int {
 	result := 0
 	position := 50
 	size := 100
@@ -25,11 +26,33 @@ func Part1(input string) int {
 			log.Fatal(err)
 		}
 
-		position = (position + size + (dir * dist)) % size
-		if position == 0 {
-			result = result + 1
+		afterRotation := position + dir*dist
+		if countCrossing {
+			result += int(math.Abs(float64(afterRotation / size)))
+
+			if position != 0 && afterRotation < 0 {
+				result++
+			}
+
+			if afterRotation == 0 {
+				result++
+			}
+		} else {
+			if position == 0 {
+				result++
+			}
 		}
+
+		position = (afterRotation%size + size) % size
 	}
 
 	return result
+}
+
+func Part1(input string) int {
+	return rotateDial(input, false)
+}
+
+func Part2(input string) int {
+	return rotateDial(input, true)
 }
