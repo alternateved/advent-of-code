@@ -7,7 +7,6 @@ import (
 )
 
 func TestPart1(t *testing.T) {
-
 	tests := []struct {
 		name  string
 		input string
@@ -35,7 +34,6 @@ func TestPart1(t *testing.T) {
 }
 
 func TestPart2(t *testing.T) {
-
 	tests := []struct {
 		name  string
 		input string
