@@ -6,43 +6,41 @@ import (
 	"strings"
 )
 
-func Part1(input string) int {
+func findLargestJoltage(bank string, n int) string {
+	bankLen := len(bank)
+	batteries := make([]byte, 0, bankLen)
+	i := 0
+
+	for len(batteries) < n {
+		toSkip := (bankLen - i) - (n - len(batteries))
+		maxJolt := bank[i]
+		maxPos := i
+
+		for j := i; j <= i+toSkip && j < bankLen; j++ {
+			if bank[j] > maxJolt {
+				maxJolt = bank[j]
+				maxPos = j
+			}
+		}
+
+		batteries = append(batteries, maxJolt)
+		i = maxPos + 1
+	}
+
+	return string(batteries)
+}
+
+func calculateTotalJoltage(input string, n int) int {
 	banks := strings.Split(input, "\n")
 	batteries := make([]int, 0, len(banks))
 
 	for _, bank := range banks {
-		var firstIndex int
-		var firstBattery int
-		for i := range len(bank) - 1 {
-			battery, err := strconv.Atoi(string(bank[i]))
-			if err != nil {
-				log.Fatal(err)
-			}
-
-			if battery > firstBattery {
-				firstIndex = i
-				firstBattery = battery
-			}
-		}
-
-		var secondIndex int
-		var secondBattery int
-		for i := firstIndex + 1; i < len(bank); i++ {
-			battery, err := strconv.Atoi(string(bank[i]))
-			if err != nil {
-				log.Fatal(err)
-			}
-
-			if battery > secondBattery && i != firstIndex {
-				secondIndex = i
-				secondBattery = battery
-			}
-		}
-
-		pair, err := strconv.Atoi(string([]byte{bank[firstIndex], bank[secondIndex]}))
+		jolt := findLargestJoltage(bank, n)
+		pair, err := strconv.Atoi(string(jolt))
 		if err != nil {
 			log.Fatal(err)
 		}
+
 		batteries = append(batteries, pair)
 	}
 
@@ -52,4 +50,12 @@ func Part1(input string) int {
 	}
 
 	return sum
+}
+
+func Part1(input string) int {
+	return calculateTotalJoltage(input, 2)
+}
+
+func Part2(input string) int {
+	return calculateTotalJoltage(input, 12)
 }
