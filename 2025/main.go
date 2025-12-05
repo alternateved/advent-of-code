@@ -13,6 +13,10 @@ import (
 )
 
 func main() {
+	for i := 1; i <= 6; i++ {
+		util.FetchInput(i)
+	}
+
 	var start time.Time
 	var input string
 	var day, result int
