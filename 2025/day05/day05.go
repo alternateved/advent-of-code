@@ -1,7 +1,9 @@
 package day05
 
 import (
+	"cmp"
 	"log"
+	"slices"
 	"strconv"
 	"strings"
 )
@@ -27,11 +29,33 @@ func parseRanges(raw []string) [][2]int {
 	return ranges
 }
 
+func mergeIntervals(intervals [][2]int) [][2]int {
+	slices.SortFunc(intervals, func(a, b [2]int) int {
+		return cmp.Compare(a[0], b[0])
+	})
+
+	merged := [][2]int{intervals[0]}
+
+	for i := 1; i < len(intervals); i++ {
+		current := intervals[i]
+		last := &merged[len(merged)-1]
+
+		if current[0] <= last[1]+1 {
+			last[1] = max(last[1], current[1])
+		} else {
+			merged = append(merged, current)
+		}
+	}
+
+	return merged
+}
+
 func Part1(input string) int {
 	data := strings.Split(input, "\n\n")
 	ingredients := strings.Split(data[1], "\n")
 	ranges := parseRanges(strings.Split(data[0], "\n"))
-	fresh := map[int]struct{}{}
+	merged := mergeIntervals(ranges)
+	count := 0
 
 	for _, ingredient := range ingredients {
 		in, err := strconv.Atoi(ingredient)
@@ -39,55 +63,23 @@ func Part1(input string) int {
 			log.Fatal(err)
 		}
 
-		for _, r := range ranges {
+		for _, r := range merged {
 			if in >= r[0] && in <= r[1] {
-				fresh[in] = struct{}{}
+				count++
 			}
 		}
 	}
 
-	return len(fresh)
+	return count
 }
 
 func Part2(input string) int {
 	data := strings.Split(input, "\n\n")
 	ranges := parseRanges(strings.Split(data[0], "\n"))
-
-	for {
-		merged := false
-
-		for a := range ranges {
-			startA := ranges[a][0]
-			endA := ranges[a][1]
-
-			for b := range ranges {
-				if a == b {
-					continue
-				}
-				startB := ranges[b][0]
-				endB := ranges[b][1]
-
-				if startB <= endA+1 && endB >= startA-1 {
-					newStart := min(startA, startB)
-					newEnd := max(endA, endB)
-					ranges[a] = [2]int{newStart, newEnd}
-					ranges = append(ranges[:b], ranges[b+1:]...)
-					merged = true
-					break
-				}
-			}
-			if merged {
-				break
-			}
-		}
-
-		if !merged {
-			break
-		}
-	}
+	merged := mergeIntervals(ranges)
 
 	var sum int
-	for _, r := range ranges {
+	for _, r := range merged {
 		sum += r[1] - r[0] + 1
 	}
 
