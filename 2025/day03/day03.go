@@ -4,6 +4,8 @@ import (
 	"log"
 	"strconv"
 	"strings"
+
+	"github.com/alternateved/advent-of-code/2025/util"
 )
 
 func findLargestJoltage(bank string, n int) string {
@@ -44,12 +46,7 @@ func calculateTotalJoltage(input string, n int) int {
 		batteries = append(batteries, pair)
 	}
 
-	var sum int
-	for _, bat := range batteries {
-		sum += bat
-	}
-
-	return sum
+	return util.Sum(batteries)
 }
 
 func Part1(input string) int {

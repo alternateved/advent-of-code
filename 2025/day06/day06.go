@@ -9,25 +9,24 @@ import (
 )
 
 func transpose[T any](m [][]T) [][]T {
-	rows := len(m)
-	cols := len(m[0])
-	result := make([][]T, cols)
-
-	for i := range result {
-		result[i] = make([]T, rows)
-
+	if len(m) == 0 || len(m[0]) == 0 {
+		return [][]T{}
 	}
 
-	for i := range rows {
-		for j := range cols {
-			result[j][i] = m[i][j]
+	rows, cols := len(m), len(m[0])
+	result := make([][]T, cols)
+
+	for i := range cols {
+		result[i] = make([]T, rows)
+		for j := range rows {
+			result[i][j] = m[j][i]
 		}
 	}
 
 	return result
 }
 
-func foldMatrix(matrix [][]int, ops []string) int {
+func foldMatrixWith(matrix [][]int, ops []string) int {
 	var total int
 	for i, col := range matrix {
 		if ops[i] == "*" {
@@ -41,13 +40,11 @@ func foldMatrix(matrix [][]int, ops []string) int {
 
 func Part1(input string) int {
 	lines := strings.Split(input, "\n")
-	height := len(lines)
-	width := len(lines[0])
-	numbers := make([][]int, height-1)
-	ops := strings.Fields(lines[height-1])
+	ops := strings.Fields(lines[len(lines)-1])
 
-	for i := 0; i < height-1; i++ {
-		numbers[i] = make([]int, 0, width)
+	numbers := make([][]int, len(lines)-1)
+	for i := range numbers {
+		numbers[i] = make([]int, 0, len(lines[0]))
 		for raw := range strings.FieldsSeq(lines[i]) {
 			num, err := strconv.Atoi(raw)
 			if err != nil {
@@ -57,17 +54,15 @@ func Part1(input string) int {
 		}
 	}
 
-	total := foldMatrix(transpose(numbers), ops)
-	return total
+	return foldMatrixWith(transpose(numbers), ops)
 }
 
 func Part2(input string) int {
 	lines := strings.Split(input, "\n")
-	height := len(lines)
-	ops := strings.Fields(lines[height-1])
+	ops := strings.Fields(lines[len(lines)-1])
 
-	grid := make([][]byte, height-1)
-	for i := 0; i < height-1; i++ {
+	grid := make([][]byte, len(lines)-1)
+	for i := range grid {
 		grid[i] = []byte(lines[i])
 	}
 
@@ -76,7 +71,7 @@ func Part2(input string) int {
 
 	for _, line := range transpose(grid) {
 		raw := strings.TrimSpace(string(line))
-		if len(raw) == 0 {
+		if raw == "" {
 			row++
 		} else {
 			num, err := strconv.Atoi(raw)
@@ -87,6 +82,5 @@ func Part2(input string) int {
 		}
 	}
 
-	total := foldMatrix(numbers, ops)
-	return total
+	return foldMatrixWith(numbers, ops)
 }
