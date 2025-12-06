@@ -4,30 +4,17 @@ import (
 	"log"
 	"strconv"
 	"strings"
+
+	"github.com/alternateved/advent-of-code/2025/util"
 )
 
-func sum(nums []int) int {
-	var sum int
-	for _, n := range nums {
-		sum += n
-	}
-	return sum
-}
-
-func product(nums []int) int {
-	product := 1
-	for _, n := range nums {
-		product *= n
-	}
-	return product
-}
-
-func transpose(m [][]int) [][]int {
+func transpose[T any](m [][]T) [][]T {
 	rows := len(m)
 	cols := len(m[0])
-	result := make([][]int, cols)
+	result := make([][]T, cols)
+
 	for i := range result {
-		result[i] = make([]int, rows)
+		result[i] = make([]T, rows)
 
 	}
 
@@ -36,17 +23,31 @@ func transpose(m [][]int) [][]int {
 			result[j][i] = m[i][j]
 		}
 	}
+
 	return result
+}
+
+func foldMatrix(matrix [][]int, ops []string) int {
+	var total int
+	for i, col := range matrix {
+		if ops[i] == "*" {
+			total += util.Product(col)
+		} else {
+			total += util.Sum(col)
+		}
+	}
+	return total
 }
 
 func Part1(input string) int {
 	lines := strings.Split(input, "\n")
-	numLen := len(lines[0])
-	numbers := make([][]int, len(lines)-1)
-	ops := strings.Fields(lines[len(lines)-1])
+	height := len(lines)
+	width := len(lines[0])
+	numbers := make([][]int, height-1)
+	ops := strings.Fields(lines[height-1])
 
-	for i := 0; i < len(lines)-1; i++ {
-		numbers[i] = make([]int, 0, numLen)
+	for i := 0; i < height-1; i++ {
+		numbers[i] = make([]int, 0, width)
 		for raw := range strings.FieldsSeq(lines[i]) {
 			num, err := strconv.Atoi(raw)
 			if err != nil {
@@ -56,14 +57,36 @@ func Part1(input string) int {
 		}
 	}
 
-	var total int
-	for i, col := range transpose(numbers) {
-		if ops[i] == "*" {
-			total += product(col)
+	total := foldMatrix(transpose(numbers), ops)
+	return total
+}
+
+func Part2(input string) int {
+	lines := strings.Split(input, "\n")
+	height := len(lines)
+	ops := strings.Fields(lines[height-1])
+
+	grid := make([][]byte, height-1)
+	for i := 0; i < height-1; i++ {
+		grid[i] = []byte(lines[i])
+	}
+
+	numbers := make([][]int, len(ops))
+	row := 0
+
+	for _, line := range transpose(grid) {
+		raw := strings.TrimSpace(string(line))
+		if len(raw) == 0 {
+			row++
 		} else {
-			total += sum(col)
+			num, err := strconv.Atoi(raw)
+			if err != nil {
+				log.Fatal(err)
+			}
+			numbers[row] = append(numbers[row], num)
 		}
 	}
 
+	total := foldMatrix(numbers, ops)
 	return total
 }
