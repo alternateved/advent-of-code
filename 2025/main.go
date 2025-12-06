@@ -9,6 +9,7 @@ import (
 	"github.com/alternateved/advent-of-code/2025/day03"
 	"github.com/alternateved/advent-of-code/2025/day04"
 	"github.com/alternateved/advent-of-code/2025/day05"
+	"github.com/alternateved/advent-of-code/2025/day06"
 	"github.com/alternateved/advent-of-code/2025/util"
 )
 
@@ -75,4 +76,10 @@ func main() {
 	input = util.ReadInput(day, "", "")
 	result = day05.Part2(input)
 	fmt.Printf("Day %d Part %d: %v (%v)\n", day, 2, result, time.Since(start))
+
+	day = 6
+	start = time.Now()
+	input = util.ReadInput(day, "", "")
+	result = day06.Part1(input)
+	fmt.Printf("Day %d Part %d: %v (%v)\n", day, 1, result, time.Since(start))
 }
