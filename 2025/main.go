@@ -94,4 +94,9 @@ func main() {
 	input = util.ReadInput(day, "", "")
 	result = day07.Part1(input)
 	fmt.Printf("Day %d Part %d: %v (%v)\n", day, 1, result, time.Since(start))
+
+	start = time.Now()
+	input = util.ReadInput(day, "", "")
+	result = day07.Part2(input)
+	fmt.Printf("Day %d Part %d: %v (%v)\n", day, 2, result, time.Since(start))
 }
