@@ -15,7 +15,7 @@ import (
 )
 
 func main() {
-	for i := 1; i <= 7; i++ {
+	for i := 1; i <= 8; i++ {
 		util.FetchInput(i)
 	}
 
