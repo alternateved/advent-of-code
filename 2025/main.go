@@ -11,11 +11,12 @@ import (
 	"github.com/alternateved/advent-of-code/2025/day05"
 	"github.com/alternateved/advent-of-code/2025/day06"
 	"github.com/alternateved/advent-of-code/2025/day07"
+	"github.com/alternateved/advent-of-code/2025/day09"
 	"github.com/alternateved/advent-of-code/2025/util"
 )
 
 func main() {
-	for i := 1; i <= 8; i++ {
+	for i := 1; i <= 9; i++ {
 		util.FetchInput(i)
 	}
 
@@ -99,4 +100,10 @@ func main() {
 	input = util.ReadInput(day, "", "")
 	result = day07.Part2(input)
 	fmt.Printf("Day %d Part %d: %v (%v)\n", day, 2, result, time.Since(start))
+
+	day = 9
+	start = time.Now()
+	input = util.ReadInput(day, "", "")
+	result = day09.Part1(input)
+	fmt.Printf("Day %d Part %d: %v (%v)\n", day, 1, result, time.Since(start))
 }

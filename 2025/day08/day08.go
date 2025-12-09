@@ -35,7 +35,6 @@ func parsePoints(input string) []point {
 		}
 
 		points = append(points, point{x, y, z})
-
 	}
 
 	return points

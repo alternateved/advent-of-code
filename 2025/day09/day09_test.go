@@ -1,4 +1,4 @@
-package day08
+package day09
 
 import (
 	"testing"
@@ -14,8 +14,13 @@ func TestPart1(t *testing.T) {
 	}{
 		{
 			name:  "Example input",
-			input: util.ReadInput(8, "../", "_example"),
-			want:  40,
+			input: util.ReadInput(9, "../", "_example"),
+			want:  50,
+		},
+		{
+			name:  "Actual input",
+			input: util.ReadInput(9, "../", ""),
+			want:  4739623064,
 		},
 	}
 
